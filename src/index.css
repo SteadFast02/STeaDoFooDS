@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.navbar-brand{
+  font-weight: bolder;
+  font-size: x-large;
+  font-family:cursive;
+}
+
+#carousel{
+  max-height: 500px;
+}
+
+/* .maxheightimg{
+  max-height: 500px;
+} */
