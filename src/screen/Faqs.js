@@ -2,10 +2,6 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const shadow={
-    "boxShadow":" rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
-  }
-
 export default function Faqs() {
   return (
     <div>
@@ -13,11 +9,18 @@ export default function Faqs() {
         <Navbar />
       </div>
 
-      <div className="container p-3">
-        <h1 className="border-bottom py-3 my-3">Frequently Asked Questions (FAQs)</h1>
+      <div className="container py-3">
+        <h1 className="border-bottom py-3 my-3 text-center">
+          Frequently Asked Questions (FAQs)
+        </h1>
         <div className="row">
-          <div className="col-12 col-md-6 col-lg-4">
-            <div id="list-example my-2" style={shadow} className="list-group">
+          {/* Left Sidebar */}
+          <div className="col-12 col-md-4 mb-3">
+            <div
+              id="list-example"
+              className="list-group shadow-sm sticky-top"
+              style={{ top: "20px", zIndex: "1" }}
+            >
               <a
                 className="list-group-item list-group-item-action"
                 href="#list-item-1"
@@ -68,12 +71,14 @@ export default function Faqs() {
               </a>
             </div>
           </div>
-          <div className="col-8 m1">
+
+          {/* Main Content */}
+          <div className="col-12 col-md-8">
             <div
               data-bs-spy="scroll"
               data-bs-target="#list-example"
               data-bs-smooth-scroll="true"
-              className="scrollspy-example"
+              className="scrollspy-example shadow-lg p-4 rounded bg-light"
               tabIndex="0"
             >
               <h4 id="list-item-1">How does Steadofoods work?</h4>
@@ -140,15 +145,15 @@ export default function Faqs() {
                 partnering with Steadofoods, please visit our "Partner with Us"
                 page for more information. We welcome collaborations with
                 establishments that share our commitment to quality and customer
-                satisfaction. If you have any additional questions or need
-                further assistance, feel free to reach out to our customer
-                support team. We're here to make your Steadofoods experience
-                exceptional!
+                satisfaction.
               </p>
             </div>
           </div>
         </div>
-        <h3 className="border-top py-3 my-3">Feel free to tailor this content to align with the specific details, policies, and features of your food ordering platform.</h3>
+        <h3 className="border-top py-3 my-3 text-center">
+          Tailor this content to reflect the details and policies of your food
+          ordering platform.
+        </h3>
       </div>
 
       <div>
