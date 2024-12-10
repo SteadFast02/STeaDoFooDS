@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatchCart, useCart } from "./ContextReducer";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const shadow = {
   boxShadow:
@@ -13,6 +15,7 @@ export default function Card(props) {
   const priceRef = useRef();
   const [qty, setQty] = useState(1);
   const [size, setSize] = useState("");
+
   const handleAddToCart = async () => {
     let food = [];
     for (const item of data) {
@@ -21,6 +24,7 @@ export default function Card(props) {
         break;
       }
     }
+
     if (food.length > 0) {
       if (food.size === size) {
         await dispatch({
@@ -28,6 +32,10 @@ export default function Card(props) {
           id: props.foodItem._id,
           price: finalPrice,
           qty: qty,
+        });
+        toast.info("Cart updated!", {
+          position: "top-right",
+          autoClose: 2000,
         });
         return;
       } else if (food.size !== size) {
@@ -40,11 +48,15 @@ export default function Card(props) {
           size: size,
           img: props.ImgSrc,
         });
-        // console.log("Size different so simply ADD one more to the list")
+        toast.success("Item added to cart!", {
+          position: "top-right",
+          autoClose: 2000,
+        });
         return;
       }
       return;
     }
+
     await dispatch({
       type: "ADD",
       id: props.foodItem._id,
@@ -53,14 +65,20 @@ export default function Card(props) {
       qty: qty,
       size: size,
     });
-    // console.log(data)
+    toast.success("Item added to cart!", {
+      position: "top-right",
+      autoClose: 2000,
+    });
   };
+
   let finalPrice = qty * parseInt(options[size]);
+
   useEffect(() => {
     setSize(priceRef.current.value);
   }, []);
   return (
     <div>
+      <ToastContainer />
       <div className="card mt-3" style={({ width: "18rem" }, shadow)}>
         <img
           src={props.foodItem.img}

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
   let navigate = useNavigate();
@@ -30,10 +32,16 @@ function Signup() {
     );
     const json = await response.json();
     if (json.success) {
-      alert("Account has been created. Login with your email ID.");
-      navigate("/login");
+      toast.success("Account has been created! Please login.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      setTimeout(() => navigate("/login"), 3500); // Navigate after toast
     } else {
-      alert("Enter valid credentials.");
+      toast.error("Invalid credentials. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -137,6 +145,7 @@ function Signup() {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }

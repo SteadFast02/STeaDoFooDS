@@ -1,5 +1,7 @@
 import React from "react";
 import { useDispatchCart, useCart } from "../components/ContextReducer";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Cart() {
   let data = useCart();
@@ -15,23 +17,39 @@ function Cart() {
 
   const handleCheckOut = async () => {
     let userEmail = localStorage.getItem("userEmail");
-    let response = await fetch(
-      "https://steadofoods.onrender.com/api/orderData",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          order_data: data,
-          email: userEmail,
-          order_date: new Date().toDateString(),
-        }),
-      }
-    );
+    try {
+      let response = await fetch(
+        "https://steadofoods.onrender.com/api/orderData",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            order_data: data,
+            email: userEmail,
+            order_date: new Date().toDateString(),
+          }),
+        }
+      );
 
-    if (response.status === 200) {
-      dispatch({ type: "DROP" });
+      if (response.status === 200) {
+        dispatch({ type: "DROP" });
+        toast.success("Checkout Successful!", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+      } else {
+        toast.error("Checkout Failed. Please try again.", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      toast.error("Something went wrong!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -39,6 +57,9 @@ function Cart() {
 
   return (
     <div className="container mt-5">
+      {/* Toast Container */}
+      <ToastContainer />
+
       {/* Table Container */}
       <div className="table-responsive">
         <table className="table table-striped table-bordered text-center">
@@ -63,9 +84,13 @@ function Cart() {
                 <td>
                   <button
                     type="button"
-                    className="btn bg-danger text-white"
+                    className="btn bg-danger text-white delete-btn"
                     onClick={() => {
                       dispatch({ type: "REMOVE", index: index });
+                      toast.info("Item Removed!", {
+                        position: "top-center",
+                        autoClose: 2000,
+                      });
                     }}
                   >
                     <svg
@@ -89,21 +114,13 @@ function Cart() {
 
       {/* Total Price Section */}
       <div className="d-flex flex-column flex-md-row align-items-center justify-content-between mt-4">
-        {/* Total Price Section */}
         <h1 className="fs-3 text-center text-md-start mb-3 mb-md-0">
           Total Price: <span className="fw-bold">{totalPrice}/-</span>
         </h1>
 
-        {/* Checkout Button */}
         <button
           className="btn btn-lg bg-success text-white mt-3 mt-md-0 checkout-btn"
           onClick={handleCheckOut}
-          style={{
-            borderRadius: "8px",
-            padding: "12px 24px",
-            fontSize: "1.1rem",
-            boxShadow: "0 4px 8px rgba(0, 128, 0, 0.2)",
-          }}
         >
           Check Out
         </button>

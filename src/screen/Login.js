@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -23,12 +25,18 @@ export default function Login() {
     );
     const json = await response.json();
     if (!json.success) {
-      alert("Enter Valid Credentials");
-    }
-    if (json.success) {
+      toast.error("Invalid credentials! Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    } else {
+      toast.success("Login successful! Redirecting...", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       localStorage.setItem("userEmail", credentials.email);
       localStorage.setItem("authToken", json.authToken);
-      navigate("/");
+      setTimeout(() => navigate("/"), 3500); // Navigate after toast
     }
   };
 
@@ -105,6 +113,7 @@ export default function Login() {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }
